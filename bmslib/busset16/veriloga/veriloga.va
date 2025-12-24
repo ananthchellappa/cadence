@@ -1,0 +1,28 @@
+`include "disciplines.vams"
+`include "constants.vams"
+
+// Update bit width to 16
+`define NUMBITS 16
+`define MAXBIT (`NUMBITS-1)
+
+module busset16(outbus);
+    output [`MAXBIT:0] outbus;
+    electrical [`MAXBIT:0] outbus;
+				
+    // INSTANCE PARAMETERS:
+    // The range now goes up to (2^16)-1 = 65535
+    parameter integer setval = 0 from [0:(1<<`NUMBITS)-1]; 
+
+    parameter real vhigh = 3;  // voltage of logic 1
+    parameter real vlow = 0;   // voltage of logic 0
+
+    //==========================================================================
+
+    analog begin
+        // The generate loop automatically handles the new `MAXBIT value
+        generate j ( `MAXBIT , 0 ) begin
+            V(outbus[j]) <+ (setval & (1 << j)) ? vhigh : vlow;
+        end
+    end
+   
+endmodule
