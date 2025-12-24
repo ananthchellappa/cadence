@@ -1,0 +1,23 @@
+`include "disciplines.vams"
+`include "constants.vams"
+
+// Update bit width to 16
+`define NUMBITS 16
+`define MAXBIT (`NUMBITS-1)
+
+module busset16(outbus);
+    // In Verilog-AMS, this defines a digital output bus
+    output [`MAXBIT:0] outbus;
+    reg    [`MAXBIT:0] outbus;
+				
+    // INSTANCE PARAMETERS:
+    // Range automatically scales to [0:65535]
+    parameter integer setval = 0 from [0:(1<<`NUMBITS)-1]; 
+
+    //==========================================================================
+    
+    initial begin
+        outbus = setval;
+    end
+
+endmodule
